@@ -1,27 +1,32 @@
 #pragma once
 
 #include "DataBase.h"
-#include <memory>
 #include "IDComponent.h"
+#include "World.h"
+#include <memory>
+#include <string>
 
-int main() {
+int main()
+{
 
-    auto db = std::make_shared<DataBase>();
+    auto world = std::make_shared<ECS::World>();
     {
-        auto entity = std::make_shared<Entity>();
+        auto entity1 = world->CreateEntity();
+        auto entity2 = world->CreateEntity();
 
-        // Вариант 1: создание на месте
-        //entity->AddComponent(IDComponent(1));  // без new!
+        std::cout << entity1.lock()->m_id << std::endl;
+        std::cout << entity2.lock()->m_id << std::endl;
 
-        // Вариант 2: через shared_ptr
-        auto idComp = std::make_shared<IDComponent>(2);
-        entity->AddComponent(idComp);
+        world->DisposeEntity(*entity1.lock());
 
-        db->AddRecord(entity);
-    }
+        auto ids = world->GetStash<IDComponent>();
 
-    auto foundEntity = db->GetRecordById(2);
-    if (foundEntity != nullptr) {
-        std::cout << foundEntity->GetComponent<IDComponent>()->getId() << std::endl;
+        ids.lock()->Add(*entity1.lock(), IDComponent(std::hash<std::string>{}("testFirstID")));
+
+        std::cout << ids.lock()->Get(*entity1.lock()).getId() << std::endl;
+
+        ids.lock()->Get(*entity1.lock()).setId(3);
+
+        std::cout << ids.lock()->Get(*entity1.lock()).getId() << std::endl;
     }
 }

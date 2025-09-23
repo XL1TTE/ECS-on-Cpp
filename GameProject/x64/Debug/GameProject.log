@@ -1,2 +1,48 @@
 ﻿  Main.cpp
+C:\Users\zzzxl\source\repos\GameProject\GameProject\World.h(74,18): warning C4858: discarding return value: The 'remove' and 'remove_if' algorithms return the iterator past the last element that should be kept. You need to call container.erase(result, container.end()) afterwards. In C++20, 'std::erase' and 'std::erase_if' are simpler replacements for these two steps.
+  (compiling source file 'Main.cpp')
+  
+C:\Users\zzzxl\source\repos\GameProject\GameProject\Main.cpp(24,78): warning C4267: 'argument': conversion from 'size_t' to 'long', possible loss of data
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(462,85): warning C4267: 'argument': conversion from 'size_t' to 'long', possible loss of data
+  (compiling source file 'Main.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(462,85):
+      the template instantiation context (the oldest one first) is
+          C:\Users\zzzxl\source\repos\GameProject\GameProject\World.h(27,28):
+          see reference to function template instantiation 'std::shared_ptr<Entity> std::make_shared<Entity,size_t&>(size_t &)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(2913,46):
+          see reference to function template instantiation 'std::_Ref_count_obj2<Entity>::_Ref_count_obj2<size_t&>(size_t &)' being compiled
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(2100,18):
+          see reference to function template instantiation 'void std::_Construct_in_place<_Ty,size_t&>(_Ty &,size_t &) noexcept(false)' being compiled
+          with
+          [
+              _Ty=Entity
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(472,14):
+          see reference to function template instantiation '_Ty *std::construct_at<_Ty,size_t&>(_Ty *const ,size_t &) noexcept(<expr>)' being compiled
+          with
+          [
+              _Ty=Entity
+          ]
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(476,82): warning C4267: 'argument': conversion from 'size_t' to 'long', possible loss of data
+  (compiling source file 'Main.cpp')
+  
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(463,90): warning C4267: 'argument': conversion from 'size_t' to 'long', possible loss of data
+  (compiling source file 'Main.cpp')
+      C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(463,90):
+      the template instantiation context (the oldest one first) is
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\memory(2100,18):
+          see reference to function template instantiation 'void std::_Construct_in_place<_Ty,size_t&>(_Ty &,size_t &) noexcept(false)' being compiled
+          with
+          [
+              _Ty=Entity
+          ]
+          C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.44.35207\include\xutility(472,14):
+          see reference to function template instantiation '_Ty *std::construct_at<_Ty,size_t&>(_Ty *const ,size_t &) noexcept(false)' being compiled
+          with
+          [
+              _Ty=Entity
+          ]
+  
+C:\Users\zzzxl\source\repos\GameProject\GameProject\Stash.h(127,1): warning C4715: 'ECS::Stash<Components::IDComponent>::Has': not all control paths return a value
   GameProject.vcxproj -> C:\Users\zzzxl\source\repos\GameProject\x64\Debug\GameProject.exe

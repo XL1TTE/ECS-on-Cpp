@@ -1,0 +1,10 @@
+BasedOnStyle: Microsoft
+AlignConsecutiveDeclarations: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveMacros: true
+AlignTrailingComments: true
+BreakBeforeBraces: Allman
+ColumnLimit: 0
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
