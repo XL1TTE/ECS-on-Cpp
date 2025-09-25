@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{884131fb-71ba-42db-8385-bf2763d4c5f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Templates">
+      <UniqueIdentifier>{079affb9-8679-45e8-8b1e-fe19845c0eec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataBase.h">
@@ -36,15 +39,33 @@
     <ClInclude Include="World.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IStash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.hpp">
+      <Filter>Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="Filter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DataBaseRecord.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DataBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stash.hpp">
+      <Filter>Templates</Filter>
+    </ClCompile>
+    <ClCompile Include="Filter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

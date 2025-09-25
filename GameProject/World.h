@@ -1,79 +1,74 @@
 #pragma once
 
 #include "Entity.h"
+#include "IStash.h"
 #include "Stash.h"
 #include <memory>
 #include <unordered_map>
 
 namespace ECS
 {
-class World final
+
+struct FilterBuilder;
+struct Filter;
+
+class World final : public std::enable_shared_from_this<World>
 {
   public:
-    World()                         = default;
-    ~World()                        = default;
+    static std::shared_ptr<World> Create()
+    {
+        return std::shared_ptr<World>(new World());
+    }
+
+  public:
+    ~World()
+    {
+        std::cout << "World destructor \n";
+        DisposeAllFilters();
+    }
     World(const World &)            = delete;
     World &operator=(const World &) = delete;
 
   private:
-    std::unordered_map<size_t, std::shared_ptr<IStash>> m_stashesMap;
-    std::vector<std::shared_ptr<Entity>>                m_disposedEntities;
-    std::vector<std::shared_ptr<Entity>>                m_entities;
-    size_t                                              m_nextEntityId = 0;
+    World() = default;
+
+  private:
+    std::unordered_map<size_t, std::shared_ptr<IStash>>        m_stashesMap;
+    std::vector<std::shared_ptr<Entity>>                       m_disposedEntities;
+    std::vector<std::shared_ptr<Entity>>                       m_entities;
+    size_t                                                     m_nextEntityId = 0;
+    std::unordered_map<size_t, std::shared_ptr<FilterBuilder>> m_cachedFilters;
 
   public:
-    std::weak_ptr<Entity> CreateEntity()
+    std::weak_ptr<Entity> CreateEntity();
+
+    const std::vector<std::shared_ptr<Entity>> &GetAllEntities() const
     {
-        auto entity = std::make_shared<Entity>(m_nextEntityId);
-        m_nextEntityId++;
-        m_entities.push_back(entity);
-        return entity;
+        return m_entities;
     }
 
     template <typename T>
-    std::weak_ptr<Stash<T>> GetStash()
-    {
-        static_assert(std::is_base_of_v<IComponent, std::decay_t<T>>,
-                      "T must derive from IComponent");
+    std::weak_ptr<Stash<T>> GetStash();
 
-        size_t stashHash = typeid(T).hash_code();
+    std::weak_ptr<IStash> TryGetStash(size_t stash_hash) const;
 
-        auto it = m_stashesMap.find(stashHash);
-        if (it == m_stashesMap.end())
-        {
-            auto stash              = std::make_shared<Stash<T>>();
-            m_stashesMap[stashHash] = stash;
-            return stash;
-        }
+    void DisposeEntity(const Entity &entity);
 
-        return std::static_pointer_cast<Stash<T>>(it->second);
-    }
+    std::shared_ptr<FilterBuilder> Filter();
 
-    void DisposeEntity(const Entity &entity)
-    {
-        if (entity.m_id <= -1)
-        {
-            return;
-        }
-        for (auto pair : m_stashesMap)
-        {
-            pair.second->Remove(entity); // remove entity from every stash
-        }
+    void DisposeFilter(const std::shared_ptr<ECS::Filter> &filter);
+    void DisposeFilter(const std::weak_ptr<ECS::Filter> &filter);
 
-        std::shared_ptr<Entity> disposed;
-        for (auto e : m_entities)
-        {
-            if (e->m_id == entity.m_id)
-            {
-                disposed = e;
-                break;
-            }
-        }
-        if (disposed != nullptr)
-        {
-            std::remove(m_entities.begin(), m_entities.end(), disposed);
-            m_disposedEntities.push_back(disposed);
-        }
-    }
+    void DisposeAllFilters();
+
+    void CacheFilterBuilder(const std::shared_ptr<FilterBuilder> &builder);
+
+    void Commit();
+
+  private:
+    friend struct FilterBuilder;
+    friend struct Filter;
 };
 } // namespace ECS
+
+#include "World.hpp"
