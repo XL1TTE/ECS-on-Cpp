@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Entity.h"
-
 namespace ECS
 {
+
+struct Entity;
+
 struct IStash
 {
 

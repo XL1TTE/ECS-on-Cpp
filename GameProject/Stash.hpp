@@ -86,6 +86,7 @@ bool Stash<T>::Has(const Entity &entity) const
     {
         return true;
     }
+    return false;
 }
 
 template <typename T>

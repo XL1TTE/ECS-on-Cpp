@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Filter.h"
 #include "IDComponent.h"
+#include "Stash.h"
 #include "World.h"
 #include <memory>
 #include <string>
@@ -11,30 +12,33 @@
 int main()
 {
 
+    auto bd = DB::DataBase();
+
     auto world = World::Create();
     {
-        auto entity1 = world->CreateEntity();
 
-        auto ids = world->GetStash<IDComponent>();
+        auto entity1 = bd.m_dbWorld->CreateEntity();
+
+        auto ids = bd.m_dbWorld->GetStash<IDComponent>();
 
         ids.lock()->Add(*entity1.lock(), IDComponent(std::hash<std::string>{}("testFirstID")));
+
+        bd.AddRecord(entity1.lock());
 
         auto filter = world->Filter()
                           ->With<IDComponent>()
                           .Build();
 
-        for (const auto &entity : *filter.lock())
-        {
-            std::cout << "Entity ID: " << entity->m_id << std::endl;
-        }
+        // for (const auto &entity : *filter.lock())
+        //{
+        //     std::cout << "Entity ID: " << entity->m_id << std::endl;
+        // }
 
-        auto filter2 = world->Filter()
-                           ->With<IDComponent>()
-                           .Build();
+        auto record = bd.TryGetRecordByID(std::hash<std::string>{}("testFirstID"));
 
-        for (const auto &entity : *filter2.lock())
+        if (record.has_value())
         {
-            std::cout << "Entity ID: " << entity->m_id << std::endl;
+            std::cout << record.value().lock()->m_id << std::endl;
         }
 
         world->DisposeFilter(filter);

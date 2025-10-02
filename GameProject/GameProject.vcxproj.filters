@@ -48,6 +48,9 @@
     <ClInclude Include="Filter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Filter.hpp">
+      <Filter>Templates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">

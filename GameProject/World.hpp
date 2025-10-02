@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IComponent.h"
 #include "World.h"
 
 using namespace ECS;
@@ -7,7 +8,7 @@ using namespace ECS;
 template <typename T>
 std::weak_ptr<Stash<T>> World::GetStash()
 {
-    static_assert(std::is_base_of_v<IComponent, std::decay_t<T>>,
+    static_assert(std::is_base_of_v<Components::IComponent, std::decay_t<T>>,
                   "T must derive from IComponent");
 
     size_t stashHash = typeid(T).hash_code();

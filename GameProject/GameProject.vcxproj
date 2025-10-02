@@ -131,6 +131,7 @@
     <ClInclude Include="DataBase.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Filter.h" />
+    <ClInclude Include="Filter.hpp" />
     <ClInclude Include="IComponent.h" />
     <ClInclude Include="IDComponent.h" />
     <ClInclude Include="IStash.h" />

@@ -1,15 +1,18 @@
 #pragma once
 
-#include "Entity.h"
-#include "World.h"
-#include <functional>
+#include "IStash.h"
+
+#include <iostream>
 #include <memory>
-#include <typeindex>
 #include <unordered_set>
 #include <vector>
 
 namespace ECS
 {
+
+class World;
+
+struct Entity;
 
 struct FilterBuilder;
 
@@ -27,7 +30,7 @@ struct Filter
 
     ~Filter()
     {
-        std::cout << "Destructor of Filter. \n";
+        std::cout << "Filter was destroyed." << std::endl;
     }
 
     size_t m_builderHash;
@@ -83,7 +86,7 @@ struct FilterBuilder : public std::enable_shared_from_this<FilterBuilder>
 {
     ~FilterBuilder()
     {
-        std::cout << "Destructor of Filter Builder. \n";
+        std::cout << "FilterBuilder was destroyed." << std::endl;
     }
 
   private:
@@ -101,49 +104,12 @@ struct FilterBuilder : public std::enable_shared_from_this<FilterBuilder>
 
   public:
     template <typename T>
-    FilterBuilder &With()
-    {
-        static_assert(std::is_base_of_v<IComponent, std::decay_t<T>>,
-                      "T must derive from IComponent");
-        m_withComponents.insert(typeid(T).hash_code());
-        return *this;
-    }
+    FilterBuilder &With();
 
     template <typename T>
-    FilterBuilder &Without()
-    {
-        static_assert(std::is_base_of_v<IComponent, std::decay_t<T>>,
-                      "T must derive from IComponent");
-        m_withoutComponents.insert(typeid(T).hash_code());
-        return *this;
-    }
+    FilterBuilder &Without();
 
-    std::weak_ptr<Filter> Build()
-    {
-        if (m_world.expired())
-        {
-            throw std::runtime_error("World is expired");
-        }
-
-        m_computedHash = GetHash();
-
-        if (auto world = m_world.lock())
-        {
-            if (world->m_cachedFilters.contains(m_computedHash))
-            {
-                m_filter = world->m_cachedFilters[m_computedHash]->GetFilter();
-                return m_filter;
-            }
-
-            auto filter = std::make_shared<Filter>(m_computedHash);
-            m_filter    = filter;
-            UpdateFilter();
-            world->CacheFilterBuilder(shared_from_this());
-
-            return filter;
-        }
-        return std::weak_ptr<Filter>();
-    }
+    std::weak_ptr<Filter> Build();
 
     void Commit()
     {
@@ -153,40 +119,7 @@ struct FilterBuilder : public std::enable_shared_from_this<FilterBuilder>
         }
     }
 
-    bool Matches(const Entity &entity) const
-    {
-        if (auto world = m_world.lock())
-        {
-            // With filter
-            for (auto componentHash : m_withComponents)
-            {
-                auto stash = world->TryGetStash(componentHash);
-                if (stash.expired())
-                {
-                    return false;
-                }
-                if (stash.lock()->Has(entity) == false)
-                {
-                    return false;
-                }
-            }
-
-            // Проверка Without компонентов
-            for (auto componentHash : m_withoutComponents)
-            {
-                auto stash = world->TryGetStash(componentHash);
-                if (stash.expired() == false)
-                {
-                    if (stash.lock()->Has(entity))
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    }
+    bool Matches(const Entity &entity) const;
 
     size_t GetHash() const
     {
@@ -221,24 +154,7 @@ struct FilterBuilder : public std::enable_shared_from_this<FilterBuilder>
         return m_filter;
     }
 
-    void UpdateFilter()
-    {
-        if (auto world = m_world.lock())
-        {
-            auto               entities = world->GetAllEntities();
-            Filter::EntityList filteredEntities;
-
-            for (const auto entity : entities)
-            {
-                if (Matches(*entity))
-                {
-                    filteredEntities.push_back(entity);
-                }
-            }
-
-            m_filter->UpdateEntities(std::move(filteredEntities));
-        }
-    }
+    void UpdateFilter();
 
     std::weak_ptr<World>       m_world;
     std::shared_ptr<Filter>    m_filter;
@@ -248,3 +164,5 @@ struct FilterBuilder : public std::enable_shared_from_this<FilterBuilder>
 };
 
 } // namespace ECS
+
+#include "Filter.hpp"

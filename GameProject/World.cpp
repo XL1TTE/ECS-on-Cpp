@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "Filter.h"
 #include "IComponent.h"
+#include "IStash.h"
 #include "Stash.h"
 #include <memory>
 #include <unordered_map>

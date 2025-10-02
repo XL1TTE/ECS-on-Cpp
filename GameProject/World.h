@@ -1,13 +1,17 @@
 #pragma once
 
-#include "Entity.h"
-#include "IStash.h"
-#include "Stash.h"
 #include <memory>
 #include <unordered_map>
 
 namespace ECS
 {
+
+struct Entity;
+
+struct IStash;
+
+template <typename T>
+struct Stash;
 
 struct FilterBuilder;
 struct Filter;
@@ -23,7 +27,6 @@ class World final : public std::enable_shared_from_this<World>
   public:
     ~World()
     {
-        std::cout << "World destructor \n";
         DisposeAllFilters();
     }
     World(const World &)            = delete;
@@ -36,7 +39,7 @@ class World final : public std::enable_shared_from_this<World>
     std::unordered_map<size_t, std::shared_ptr<IStash>>        m_stashesMap;
     std::vector<std::shared_ptr<Entity>>                       m_disposedEntities;
     std::vector<std::shared_ptr<Entity>>                       m_entities;
-    size_t                                                     m_nextEntityId = 0;
+    long                                                       m_nextEntityId = 0;
     std::unordered_map<size_t, std::shared_ptr<FilterBuilder>> m_cachedFilters;
 
   public:

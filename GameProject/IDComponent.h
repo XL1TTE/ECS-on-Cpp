@@ -10,22 +10,12 @@ struct IDComponent : public IComponent
         : m_id(-1)
     {
     }
-    explicit IDComponent(long &&id)
+    explicit IDComponent(size_t &&id)
         : m_id(id)
     {
     }
 
-  private:
-    long m_id;
-
   public:
-    const long &getId() const
-    {
-        return m_id;
-    }
-    void setId(long id)
-    {
-        m_id = id;
-    }
+    size_t m_id;
 };
 } // namespace Components

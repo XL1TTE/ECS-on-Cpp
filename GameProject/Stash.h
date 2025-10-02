@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Entity.h"
 #include "IStash.h"
 #include <memory>
 #include <optional>
 
 namespace ECS
 {
+
+struct Entity;
 
 template <typename T>
 struct Stash : public IStash
