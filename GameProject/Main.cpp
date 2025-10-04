@@ -21,7 +21,7 @@ int main()
 
         auto ids = bd.m_dbWorld->GetStash<IDComponent>();
 
-        ids.lock()->Add(*entity1.lock(), IDComponent(std::hash<std::string>{}("testFirstID")));
+        ids.lock()->Add(*entity1.lock(), IDComponent("testFirstID"));
 
         bd.AddRecord(entity1.lock());
 
@@ -34,11 +34,24 @@ int main()
         //     std::cout << "Entity ID: " << entity->m_id << std::endl;
         // }
 
-        auto record = bd.TryGetRecordByID(std::hash<std::string>{}("testFirstID"));
+        auto record = bd.TryGetRecordByID("testFirstID");
 
         if (record.has_value())
         {
             std::cout << record.value().lock()->m_id << std::endl;
+        }
+
+        IDComponent *id = nullptr;
+        if (bd.TryGetRecordComponent<IDComponent>(*record.value().lock(), id))
+        {
+            std::cout << id->m_id << std::endl;
+            id->m_id = "testID";
+        }
+
+        record = bd.TryGetRecordByID("testID");
+        if (bd.TryGetRecordComponent<IDComponent>(*record.value().lock(), id))
+        {
+            std::cout << id->m_id << std::endl;
         }
 
         world->DisposeFilter(filter);

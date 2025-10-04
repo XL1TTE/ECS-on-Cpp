@@ -51,6 +51,9 @@
     <ClInclude Include="Filter.hpp">
       <Filter>Templates</Filter>
     </ClInclude>
+    <ClInclude Include="DataBase.hpp">
+      <Filter>Templates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">

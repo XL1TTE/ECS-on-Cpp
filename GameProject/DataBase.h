@@ -28,10 +28,15 @@ class DataBase final
 
   public:
     void                                             AddRecord(std::shared_ptr<ECS::Entity> entity);
-    const std::optional<std::weak_ptr<ECS::Entity>> &TryGetRecordByID(const size_t &&id_hash) const;
+    const std::optional<std::weak_ptr<ECS::Entity>> &TryGetRecordByID(const std::string &id) const;
+
+    template <typename T>
+    const bool TryGetRecordComponent(const ECS::Entity &record, T *&out) const;
 
   private:
     void resize(size_t requiredSize);
 };
 
 } // namespace DB
+
+#include "DataBase.hpp"

@@ -53,8 +53,6 @@ class World final : public std::enable_shared_from_this<World>
     template <typename T>
     std::weak_ptr<Stash<T>> GetStash();
 
-    std::weak_ptr<IStash> TryGetStash(size_t stash_hash) const;
-
     void DisposeEntity(const Entity &entity);
 
     std::shared_ptr<FilterBuilder> Filter();
@@ -67,6 +65,9 @@ class World final : public std::enable_shared_from_this<World>
     void CacheFilterBuilder(const std::shared_ptr<FilterBuilder> &builder);
 
     void Commit();
+
+  private:
+    std::weak_ptr<IStash> TryGetStash(size_t stash_hash) const;
 
   private:
     friend struct FilterBuilder;

@@ -18,7 +18,7 @@ DataBase::DataBase()
         new std::optional<std::shared_ptr<ECS::Entity>>[m_capacity]);
 }
 
-const std::optional<std::weak_ptr<ECS::Entity>> &DataBase::TryGetRecordByID(const size_t &&id_hash) const
+const std::optional<std::weak_ptr<ECS::Entity>> &DataBase::TryGetRecordByID(const std::string &id) const
 {
     auto idsPtr = m_dbWorld->GetStash<Components::IDComponent>();
 
@@ -41,7 +41,7 @@ const std::optional<std::weak_ptr<ECS::Entity>> &DataBase::TryGetRecordByID(cons
             continue;
         }
 
-        if (ids->Get(*entityWeakPtr.value()).m_id == id_hash)
+        if (ids->Get(*entityWeakPtr.value()).m_id == id)
         {
             return std::weak_ptr(entityWeakPtr.value());
         }

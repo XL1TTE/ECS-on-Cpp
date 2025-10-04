@@ -129,6 +129,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DataBase.h" />
+    <ClInclude Include="DataBase.hpp" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Filter.h" />
     <ClInclude Include="Filter.hpp" />

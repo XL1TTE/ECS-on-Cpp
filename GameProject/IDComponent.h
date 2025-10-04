@@ -1,21 +1,23 @@
 #pragma once
 #include "IComponent.h"
 
+#include <string>
+
 namespace Components
 {
 struct IDComponent : public IComponent
 {
   public:
     IDComponent()
-        : m_id(-1)
+        : m_id("")
     {
     }
-    explicit IDComponent(size_t &&id)
+    explicit IDComponent(std::string &&id)
         : m_id(id)
     {
     }
 
   public:
-    size_t m_id;
+    std::string m_id;
 };
 } // namespace Components
