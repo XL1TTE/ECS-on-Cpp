@@ -20,7 +20,7 @@ struct Entity
     }
     ~Entity()
     {
-        std::cout << ("Entity was destroyed. \n");
+        // std::cout << ("Entity was destroyed. \n");
     }
 
   public:

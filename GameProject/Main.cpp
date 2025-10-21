@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "Filter.h"
 #include "IDComponent.h"
+#include "LogUtility.h"
 #include "Stash.h"
 #include "World.h"
 #include <memory>
@@ -15,16 +16,9 @@ int main()
 
     auto db = DB::DataBase::GetInstance();
 
-    auto dbFilter = db.Filter()->With<IDComponent>().Build();
+    auto itemsFilter = db.Filter()
+                           ->With<Item>()
+                           .Build();
 
-    for (auto entity : *dbFilter.lock())
-    {
-        IDComponent *id;
-        Damage      *damage;
-        if (db.TryGetRecordComponent<IDComponent>(*entity, id))
-        {
-            if (db.TryGetRecordComponent<Damage>(*entity, damage))
-                std::cout << id->m_id << " have " << damage->m_Value << " damage." << std::endl;
-        }
-    }
+    Utilities::LogUtility::print_items_table(itemsFilter.lock());
 }

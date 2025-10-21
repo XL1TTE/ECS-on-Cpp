@@ -25,6 +25,12 @@
     <Filter Include="Source Files\DBRecords">
       <UniqueIdentifier>{bcb13ba0-5d01-403c-887a-33d3692925cf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{2a5481ac-3492-408c-b57c-7f3c3d4cd288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{a2c79101-805a-449b-8266-dfb07318f269}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataBase.h">
@@ -78,6 +84,12 @@
     <ClInclude Include="DeveloperSwordRecord.h">
       <Filter>Header Files\DBRecords</Filter>
     </ClInclude>
+    <ClInclude Include="LogUtility.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="DragonChestPlateRecord.h">
+      <Filter>Header Files\DBRecords</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -110,5 +122,14 @@
     <ClCompile Include="DeveloperSwordRecord.cpp">
       <Filter>Source Files\DBRecords</Filter>
     </ClCompile>
+    <ClCompile Include="LogUtility.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="DragonChestPlateRecord.cpp">
+      <Filter>Source Files\DBRecords</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

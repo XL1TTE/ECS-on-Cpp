@@ -15,8 +15,18 @@ class WoodenSwordRecord : IDbRecord
   public:
     WoodenSwordRecord()
     {
-        With<IDComponent>(IDComponent("WoodenSword"));
-        With<Damage>(Damage(5));
+        With<IDComponent>(IDComponent("weapon_wooden-sword"));
+
+        With<Item>(Item());
+
+        With<Name>(Name("Wooden Sword"));
+        With<Description>(Description("Sword from wood. Good for practice."));
+
+        With<Rarity>(Rarity(Rarity::COMMON));
+
+        With<Damage>(Damage(1));
+
+        With<Cost>(Cost(5));
     }
 };
 

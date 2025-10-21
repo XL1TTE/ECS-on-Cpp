@@ -30,7 +30,7 @@ struct Filter
 
     ~Filter()
     {
-        std::cout << "Filter was destroyed." << std::endl;
+        // std::cout << "Filter was destroyed." << std::endl;
     }
 
     size_t m_builderHash;
@@ -62,7 +62,7 @@ struct Filter
         return m_filteredEntities.empty();
     }
 
-    const std::shared_ptr<Entity> &operator[](size_t index) const
+    const std::shared_ptr<Entity> operator[](size_t index) const
     {
         return m_filteredEntities[index];
     }
@@ -86,7 +86,7 @@ struct FilterBuilder : public std::enable_shared_from_this<FilterBuilder>
 {
     ~FilterBuilder()
     {
-        std::cout << "FilterBuilder was destroyed." << std::endl;
+        // std::cout << "FilterBuilder was destroyed." << std::endl;
     }
 
   private:
@@ -149,7 +149,7 @@ struct FilterBuilder : public std::enable_shared_from_this<FilterBuilder>
     }
 
   private:
-    std::shared_ptr<Filter> &GetFilter()
+    std::shared_ptr<Filter> GetFilter()
     {
         return m_filter;
     }

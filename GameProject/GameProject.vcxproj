@@ -131,6 +131,7 @@
     <ClInclude Include="DataBase.h" />
     <ClInclude Include="DataBase.hpp" />
     <ClInclude Include="DeveloperSwordRecord.h" />
+    <ClInclude Include="DragonChestPlateRecord.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Filter.h" />
     <ClInclude Include="Filter.hpp" />
@@ -140,6 +141,7 @@
     <ClInclude Include="IDComponent.h" />
     <ClInclude Include="IronSwordRecord.h" />
     <ClInclude Include="IStash.h" />
+    <ClInclude Include="LogUtility.h" />
     <ClInclude Include="Stash.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="WoodenSwordRecord.h" />
@@ -149,10 +151,12 @@
   <ItemGroup>
     <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="DeveloperSwordRecord.cpp" />
+    <ClCompile Include="DragonChestPlateRecord.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Filter.cpp" />
     <ClCompile Include="IDbRecord.cpp" />
     <ClCompile Include="IronSwordRecord.cpp" />
+    <ClCompile Include="LogUtility.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="WoodenSwordRecord.cpp" />
     <ClCompile Include="World.cpp" />
@@ -160,7 +164,17 @@
   <ItemGroup>
     <ClCompile Include="Stash.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\fmt.7.0.1\build\fmt.targets" Condition="Exists('..\packages\fmt.7.0.1\build\fmt.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\fmt.7.0.1\build\fmt.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\fmt.7.0.1\build\fmt.targets'))" />
+  </Target>
 </Project>

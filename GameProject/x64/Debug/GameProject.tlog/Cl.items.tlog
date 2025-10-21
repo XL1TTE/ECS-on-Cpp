@@ -1,9 +1,11 @@
 C:\Users\zzzxl\source\repos\GameProject\GameProject\DataBase.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\DataBase.obj
 C:\Users\zzzxl\source\repos\GameProject\GameProject\DeveloperSwordRecord.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\DeveloperSwordRecord.obj
+C:\Users\zzzxl\source\repos\GameProject\GameProject\DragonChestPlateRecord.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\DragonChestPlateRecord.obj
 C:\Users\zzzxl\source\repos\GameProject\GameProject\Entity.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\Entity.obj
 C:\Users\zzzxl\source\repos\GameProject\GameProject\Filter.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\Filter.obj
 C:\Users\zzzxl\source\repos\GameProject\GameProject\IDbRecord.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\IDbRecord.obj
 C:\Users\zzzxl\source\repos\GameProject\GameProject\IronSwordRecord.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\IronSwordRecord.obj
+C:\Users\zzzxl\source\repos\GameProject\GameProject\LogUtility.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\LogUtility.obj
 C:\Users\zzzxl\source\repos\GameProject\GameProject\Main.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\Main.obj
 C:\Users\zzzxl\source\repos\GameProject\GameProject\WoodenSwordRecord.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\WoodenSwordRecord.obj
 C:\Users\zzzxl\source\repos\GameProject\GameProject\World.cpp;C:\Users\zzzxl\source\repos\GameProject\GameProject\x64\Debug\World.obj

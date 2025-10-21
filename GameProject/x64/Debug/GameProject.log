@@ -1,2 +1,5 @@
 ﻿  Main.cpp
+C:\Users\zzzxl\source\repos\GameProject\GameProject\LogUtility.h(15,14): warning C4091: 'static ': ignored on left of 'Utilities::LogUtility' when no variable is declared
+  (compiling source file 'Main.cpp')
+  
   GameProject.vcxproj -> C:\Users\zzzxl\source\repos\GameProject\x64\Debug\GameProject.exe
