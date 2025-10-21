@@ -18,6 +18,11 @@ DataBase::DataBase()
         new std::optional<std::shared_ptr<ECS::Entity>>[m_capacity]);
 }
 
+std::shared_ptr<ECS::FilterBuilder> DataBase::Filter() const
+{
+    return m_dbWorld->Filter();
+}
+
 const std::optional<std::weak_ptr<ECS::Entity>> &DataBase::TryGetRecordByID(const std::string &id) const
 {
     auto idsPtr = m_dbWorld->GetStash<Components::IDComponent>();

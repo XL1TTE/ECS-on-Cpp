@@ -1,8 +1,2 @@
-﻿  DataBase.cpp
-  Main.cpp
-  World.cpp
-  Stash.hpp
-  Generating Code...
-C:\Users\zzzxl\source\repos\GameProject\GameProject\DataBase.cpp(46,1): warning C4172: returning address of local variable or temporary 
-C:\Users\zzzxl\source\repos\GameProject\GameProject\DataBase.cpp(49,1): warning C4172: returning address of local variable or temporary 
+﻿  Main.cpp
   GameProject.vcxproj -> C:\Users\zzzxl\source\repos\GameProject\x64\Debug\GameProject.exe

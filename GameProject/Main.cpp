@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Components.h"
 #include "DataBase.h"
 #include "Entity.h"
 #include "Filter.h"
@@ -12,52 +13,18 @@
 int main()
 {
 
-    auto bd = DB::DataBase();
+    auto db = DB::DataBase::GetInstance();
 
-    auto world = World::Create();
+    auto dbFilter = db.Filter()->With<IDComponent>().Build();
+
+    for (auto entity : *dbFilter.lock())
     {
-
-        auto entity1 = bd.m_dbWorld->CreateEntity();
-
-        auto ids = bd.m_dbWorld->GetStash<IDComponent>();
-
-        ids.lock()->Add(*entity1.lock(), IDComponent("testFirstID"));
-
-        bd.AddRecord(entity1.lock());
-
-        auto filter = world->Filter()
-                          ->With<IDComponent>()
-                          .Build();
-
-        // for (const auto &entity : *filter.lock())
-        //{
-        //     std::cout << "Entity ID: " << entity->m_id << std::endl;
-        // }
-
-        auto record = bd.TryGetRecordByID("testFirstID");
-
-        if (record.has_value())
+        IDComponent *id;
+        Damage      *damage;
+        if (db.TryGetRecordComponent<IDComponent>(*entity, id))
         {
-            std::cout << record.value().lock()->m_id << std::endl;
+            if (db.TryGetRecordComponent<Damage>(*entity, damage))
+                std::cout << id->m_id << " have " << damage->m_Value << " damage." << std::endl;
         }
-
-        IDComponent *id = nullptr;
-        if (bd.TryGetRecordComponent<IDComponent>(*record.value().lock(), id))
-        {
-            std::cout << id->m_id << std::endl;
-            id->m_id = "testID";
-        }
-
-        record = bd.TryGetRecordByID("testID");
-        if (bd.TryGetRecordComponent<IDComponent>(*record.value().lock(), id))
-        {
-            std::cout << id->m_id << std::endl;
-        }
-
-        world->DisposeFilter(filter);
-
-        world->Commit();
-
-        std::cout << "END \n";
     }
 }

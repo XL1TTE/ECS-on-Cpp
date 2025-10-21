@@ -19,6 +19,12 @@
     <Filter Include="Templates">
       <UniqueIdentifier>{079affb9-8679-45e8-8b1e-fe19845c0eec}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\DBRecords">
+      <UniqueIdentifier>{c9697ef1-2318-42ec-b2ef-182f9d388740}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DBRecords">
+      <UniqueIdentifier>{bcb13ba0-5d01-403c-887a-33d3692925cf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataBase.h">
@@ -54,6 +60,24 @@
     <ClInclude Include="DataBase.hpp">
       <Filter>Templates</Filter>
     </ClInclude>
+    <ClInclude Include="IronSwordRecord.h">
+      <Filter>Header Files\DBRecords</Filter>
+    </ClInclude>
+    <ClInclude Include="IDbRecord.h">
+      <Filter>Header Files\DBRecords</Filter>
+    </ClInclude>
+    <ClInclude Include="IDbRecord.hpp">
+      <Filter>Templates</Filter>
+    </ClInclude>
+    <ClInclude Include="WoodenSwordRecord.h">
+      <Filter>Header Files\DBRecords</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="DeveloperSwordRecord.h">
+      <Filter>Header Files\DBRecords</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -73,6 +97,18 @@
     </ClCompile>
     <ClCompile Include="Filter.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IronSwordRecord.cpp">
+      <Filter>Source Files\DBRecords</Filter>
+    </ClCompile>
+    <ClCompile Include="IDbRecord.cpp">
+      <Filter>Source Files\DBRecords</Filter>
+    </ClCompile>
+    <ClCompile Include="WoodenSwordRecord.cpp">
+      <Filter>Source Files\DBRecords</Filter>
+    </ClCompile>
+    <ClCompile Include="DeveloperSwordRecord.cpp">
+      <Filter>Source Files\DBRecords</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
