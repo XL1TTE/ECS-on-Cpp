@@ -13,10 +13,11 @@ void DB::IDbRecord::With(T component)
 
     if (!m_record.expired())
     {
-        // Убедитесь, что m_dbWorld существует и GetStash<T>() работает
-        if (DB::DataBase::GetInstance().m_dbWorld)
+        auto db = DB::DataBase::GetInstance();
+
+        if (db.m_dbWorld)
         {
-            std::weak_ptr<ECS::Stash<T>> weak_stash = DB::DataBase::GetInstance().m_dbWorld->GetStash<T>();
+            std::weak_ptr<ECS::Stash<T>> weak_stash = db.m_dbWorld->GetStash<T>();
 
             if (auto stash = weak_stash.lock())
             {

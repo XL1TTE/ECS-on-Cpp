@@ -17,6 +17,7 @@ class IronSwordRecord : IDbRecord
         With<IDComponent>(IDComponent("weapon_iron-sword"));
 
         With<Item>(Item());
+        With<Weapon>(Weapon());
 
         With<Name>(Name("Iron Sword"));
         With<Description>(Description("Sword from iron. Looks sharp enought."));

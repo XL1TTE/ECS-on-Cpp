@@ -26,6 +26,8 @@ fmt::color getRarityColor(Rarity::Rarities rarity)
         return fmt::color::magenta;
     case Rarity::LEGENDARY:
         return fmt::color::gold;
+    case Rarity::QUEST:
+        return fmt::color::lime;
     default:
         return fmt::color::white;
     }
@@ -79,8 +81,57 @@ const std::string &LogUtility::item_log_standart(ECS::Entity &item_entity, int i
     return result;
 }
 
-void LogUtility::print_items_table(const std::shared_ptr<ECS::Filter> itemsFilter)
+void LogUtility::print_items_table(const std::shared_ptr<ECS::Filter> itemsFilter, SortType sortType)
 {
+    std::vector<std::shared_ptr<ECS::Entity>> items(itemsFilter->begin(), itemsFilter->end());
+
+    auto &db = DataBase::GetInstance();
+
+    switch (sortType)
+    {
+    case SortType::BY_RARITY:
+        std::sort(items.begin(), items.end(), [&db](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
+                  {
+            Rarity *rarityA = nullptr, *rarityB = nullptr;
+            db.TryGetRecordComponent<Rarity>(*a, rarityA);
+            db.TryGetRecordComponent<Rarity>(*b, rarityB);
+            
+            int rarityValueA = rarityA ? static_cast<int>(rarityA->m_Value) : 0;
+            int rarityValueB = rarityB ? static_cast<int>(rarityB->m_Value) : 0;
+            
+            return rarityValueA > rarityValueB; });
+        break;
+
+    case SortType::BY_PRICE_ASC:
+        std::sort(items.begin(), items.end(), [&db](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
+                  {
+            Cost *costA = nullptr, *costB = nullptr;
+            db.TryGetRecordComponent<Cost>(*a, costA);
+            db.TryGetRecordComponent<Cost>(*b, costB);
+            
+            float costValueA = costA ? costA->m_Value : 0.0f;
+            float costValueB = costB ? costB->m_Value : 0.0f;
+            
+            return costValueA < costValueB; });
+        break;
+
+    case SortType::BY_PRICE_DESC:
+        std::sort(items.begin(), items.end(), [&db](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
+                  {
+            Cost *costA = nullptr, *costB = nullptr;
+            db.TryGetRecordComponent<Cost>(*a, costA);
+            db.TryGetRecordComponent<Cost>(*b, costB);
+            
+            float costValueA = costA ? costA->m_Value : 0.0f;
+            float costValueB = costB ? costB->m_Value : 0.0f;
+            
+            return costValueA > costValueB; });
+        break;
+
+    case SortType::NONE:
+    default:
+        break;
+    }
 
     fmt::print(fg(fmt::color::cyan) | fmt::emphasis::bold,
                "{}\n", create_header());
@@ -89,7 +140,7 @@ void LogUtility::print_items_table(const std::shared_ptr<ECS::Filter> itemsFilte
                std::string(5 + 20 + 25 + 8 + 8 + 10 + 3, '-'));
 
     int index = 0;
-    for (const auto item : *itemsFilter)
+    for (const auto &item : items)
     {
         ++index;
         fmt::print("{}\n", item_log_standart(*item, index));

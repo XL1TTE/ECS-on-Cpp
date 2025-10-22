@@ -1,0 +1,13 @@
+#include "QuestItemsRecords.h"
+#include "DataBase.h"
+
+REGISTER_DB_RECORD(AncientScrollRecord)
+REGISTER_DB_RECORD(LostKeyRecord)
+REGISTER_DB_RECORD(DragonEggRecord)
+REGISTER_DB_RECORD(MysteriousOrbRecord)
+REGISTER_DB_RECORD(HerbSackRecord)
+REGISTER_DB_RECORD(BlacksmithPackageRecord)
+REGISTER_DB_RECORD(CrystalShardRecord)
+REGISTER_DB_RECORD(LoveLetterRecord)
+REGISTER_DB_RECORD(TreasureMapRecord)
+REGISTER_DB_RECORD(ArtifactPieceRecord)

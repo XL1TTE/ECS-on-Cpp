@@ -97,8 +97,12 @@ void Stash<T>::resize(size_t requiredSize)
         m_bufferSize = requiredSize;
         return;
     }
-    size_t newCapacity  = m_capacity * 2;
-    auto   newBufferPtr = std::shared_ptr<std::optional<T>[]>(new std::optional<T>[newCapacity]);
+
+    std::cout << "STASH RESIZE: " << typeid(T).name() << " from " << m_capacity << " to " << requiredSize << std::endl;
+
+    size_t newCapacity = m_capacity * 2;
+
+    auto newBufferPtr = std::shared_ptr<std::optional<T>[]>(new std::optional<T>[newCapacity]);
 
     for (size_t i = 0; i < m_bufferSize; ++i)
     {

@@ -1,0 +1,13 @@
+#include "WeaponRecords.h"
+#include "DataBase.h"
+
+REGISTER_DB_RECORD(WoodenSwordRecord)
+REGISTER_DB_RECORD(SteelSwordRecord)
+REGISTER_DB_RECORD(DragonSlayerRecord)
+REGISTER_DB_RECORD(HunterBowRecord)
+REGISTER_DB_RECORD(FireStaffRecord)
+REGISTER_DB_RECORD(PoisonDaggerRecord)
+REGISTER_DB_RECORD(WarAxeRecord)
+REGISTER_DB_RECORD(MagicWandRecord)
+REGISTER_DB_RECORD(CrossbowRecord)
+REGISTER_DB_RECORD(LightningSpearRecord)

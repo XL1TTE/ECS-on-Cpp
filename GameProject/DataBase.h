@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <memory>
 #include <optional>
 #include <string>
@@ -14,8 +15,18 @@ struct FilterBuilder;
 namespace DB
 {
 
-#define REGISTER_DB_RECORD(T) \
-    static bool T##_registered = (DB::DataBase::GetInstance().RegisterRecordType<T>(), true);
+#define REGISTER_DB_RECORD(T)                                    \
+    namespace                                                    \
+    {                                                            \
+    struct T##Registrar                                          \
+    {                                                            \
+        T##Registrar()                                           \
+        {                                                        \
+            DB::DataBase::GetInstance().RegisterRecordType<T>(); \
+        }                                                        \
+    };                                                           \
+    T##Registrar g_##T##_registrar;                              \
+    }
 
 class DataBase final
 {
@@ -27,7 +38,7 @@ class DataBase final
 
   private:
     size_t                                                         m_bufferSize = 0;
-    size_t                                                         m_capacity   = 0;
+    size_t                                                         m_capacity   = 64;
     std::shared_ptr<std::optional<std::shared_ptr<ECS::Entity>>[]> m_records;
 
   public:

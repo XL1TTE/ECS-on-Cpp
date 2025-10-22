@@ -1,5 +1,6 @@
-﻿  Main.cpp
+﻿  LogUtility.cpp
 C:\Users\zzzxl\source\repos\GameProject\GameProject\LogUtility.h(15,14): warning C4091: 'static ': ignored on left of 'Utilities::LogUtility' when no variable is declared
-  (compiling source file 'Main.cpp')
+  (compiling source file 'LogUtility.cpp')
   
+fmtd.lib(format.cc.obj) : warning LNK4099: PDB 'fmt.pdb' was not found with 'fmtd.lib(format.cc.obj)' or at 'C:\Users\zzzxl\source\repos\GameProject\x64\Debug\fmt.pdb'; linking object as if no debug info
   GameProject.vcxproj -> C:\Users\zzzxl\source\repos\GameProject\x64\Debug\GameProject.exe

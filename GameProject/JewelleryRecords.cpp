@@ -1,0 +1,13 @@
+#include "JewelleryRecords.h"
+#include "DataBase.h"
+
+REGISTER_DB_RECORD(HealthRingRecord)
+REGISTER_DB_RECORD(ManaAmuletRecord)
+REGISTER_DB_RECORD(StrengthBraceletRecord)
+REGISTER_DB_RECORD(InvisibilityCloakRecord)
+REGISTER_DB_RECORD(WisdomNecklaceRecord)
+REGISTER_DB_RECORD(SpeedEarringRecord)
+REGISTER_DB_RECORD(FireResistanceRingRecord)
+REGISTER_DB_RECORD(LuckPendantRecord)
+REGISTER_DB_RECORD(RoyalCrownRecord)
+REGISTER_DB_RECORD(MagicBangleRecord)

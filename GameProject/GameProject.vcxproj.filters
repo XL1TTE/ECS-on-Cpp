@@ -66,28 +66,31 @@
     <ClInclude Include="DataBase.hpp">
       <Filter>Templates</Filter>
     </ClInclude>
-    <ClInclude Include="IronSwordRecord.h">
-      <Filter>Header Files\DBRecords</Filter>
-    </ClInclude>
     <ClInclude Include="IDbRecord.h">
       <Filter>Header Files\DBRecords</Filter>
     </ClInclude>
     <ClInclude Include="IDbRecord.hpp">
       <Filter>Templates</Filter>
     </ClInclude>
-    <ClInclude Include="WoodenSwordRecord.h">
-      <Filter>Header Files\DBRecords</Filter>
-    </ClInclude>
     <ClInclude Include="Components.h">
       <Filter>Header Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="DeveloperSwordRecord.h">
-      <Filter>Header Files\DBRecords</Filter>
     </ClInclude>
     <ClInclude Include="LogUtility.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="DragonChestPlateRecord.h">
+    <ClInclude Include="ConsoleItemsAPI.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponRecords.h">
+      <Filter>Header Files\DBRecords</Filter>
+    </ClInclude>
+    <ClInclude Include="ArmorRecords.h">
+      <Filter>Header Files\DBRecords</Filter>
+    </ClInclude>
+    <ClInclude Include="QuestItemsRecords.h">
+      <Filter>Header Files\DBRecords</Filter>
+    </ClInclude>
+    <ClInclude Include="JewelleryRecords.h">
       <Filter>Header Files\DBRecords</Filter>
     </ClInclude>
   </ItemGroup>
@@ -110,22 +113,25 @@
     <ClCompile Include="Filter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IronSwordRecord.cpp">
-      <Filter>Source Files\DBRecords</Filter>
-    </ClCompile>
     <ClCompile Include="IDbRecord.cpp">
-      <Filter>Source Files\DBRecords</Filter>
-    </ClCompile>
-    <ClCompile Include="WoodenSwordRecord.cpp">
-      <Filter>Source Files\DBRecords</Filter>
-    </ClCompile>
-    <ClCompile Include="DeveloperSwordRecord.cpp">
       <Filter>Source Files\DBRecords</Filter>
     </ClCompile>
     <ClCompile Include="LogUtility.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="DragonChestPlateRecord.cpp">
+    <ClCompile Include="ConsoleItemsAPI.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="ArmorRecords.cpp">
+      <Filter>Source Files\DBRecords</Filter>
+    </ClCompile>
+    <ClCompile Include="JewelleryRecords.cpp">
+      <Filter>Source Files\DBRecords</Filter>
+    </ClCompile>
+    <ClCompile Include="QuestItemsRecords.cpp">
+      <Filter>Source Files\DBRecords</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponRecords.cpp">
       <Filter>Source Files\DBRecords</Filter>
     </ClCompile>
   </ItemGroup>

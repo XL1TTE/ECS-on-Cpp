@@ -13,7 +13,7 @@ template <typename T>
 struct Stash : public IStash
 {
     Stash()
-        : m_bufferSize(16), m_capacity(16)
+        : m_bufferSize(16), m_capacity(64)
     {
         m_valuesPtr = std::shared_ptr<std::optional<T>[]>(new std::optional<T>[m_capacity]);
     }
@@ -21,8 +21,8 @@ struct Stash : public IStash
     Stash(Stash &&other) noexcept
         : m_bufferSize(other.m_bufferSize), m_capacity(other.m_capacity), m_valuesPtr(std::move(other.m_valuesPtr))
     {
-        other.m_bufferSize = 0;
-        other.m_capacity   = 0;
+        other.m_bufferSize = other.m_bufferSize;
+        other.m_capacity   = other.m_capacity;
         other.m_valuesPtr  = nullptr;
     }
 
@@ -43,7 +43,7 @@ struct Stash : public IStash
 
   private:
     size_t                              m_bufferSize = 0;
-    size_t                              m_capacity   = 0;
+    size_t                              m_capacity   = 64;
     std::shared_ptr<std::optional<T>[]> m_valuesPtr;
 
   public:

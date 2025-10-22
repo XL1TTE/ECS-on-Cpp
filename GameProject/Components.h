@@ -11,6 +11,34 @@ struct Item : public IComponent
     {
     }
 };
+struct Weapon : public IComponent
+{
+  public:
+    explicit Weapon()
+    {
+    }
+};
+struct Wearable : public IComponent
+{
+  public:
+    explicit Wearable()
+    {
+    }
+};
+struct Jewellery : public IComponent
+{
+  public:
+    explicit Jewellery()
+    {
+    }
+};
+struct QuestItem : public IComponent
+{
+  public:
+    explicit QuestItem()
+    {
+    }
+};
 struct HiddenItem : public IComponent
 {
   public:
@@ -83,7 +111,8 @@ struct Rarity : public IComponent
         UNCOMMON,
         RARE,
         EPIC,
-        LEGENDARY
+        LEGENDARY,
+        QUEST
     };
 
   public:

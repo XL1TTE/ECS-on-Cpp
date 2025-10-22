@@ -17,7 +17,9 @@ class DeveloperSwordRecord : IDbRecord
         With<IDComponent>(IDComponent("weapon_dev-sword"));
 
         With<Item>(Item());
-        With<HiddenItem>(HiddenItem());
+        With<Weapon>(Weapon());
+
+        With<Components::HiddenItem>(Components::HiddenItem());
 
         With<Name>(Name("Developer's Sword"));
         With<Description>(Description("One punch sword."));

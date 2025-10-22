@@ -17,6 +17,7 @@ class DragonChestPlateRecord : IDbRecord
         With<IDComponent>(IDComponent("armor_dragon-armor"));
 
         With<Item>(Item());
+        With<Wearable>(Wearable());
 
         With<Name>(Name("Dragon's Armor"));
         With<Description>(Description("Chest plate made from dragon's skin."));

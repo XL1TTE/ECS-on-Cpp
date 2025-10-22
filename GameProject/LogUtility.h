@@ -15,7 +15,16 @@ namespace Utilities
 static class LogUtility
 {
   public:
+    enum class SortType
+    {
+        NONE,
+        BY_RARITY,
+        BY_PRICE_ASC,
+        BY_PRICE_DESC
+    };
+
+  public:
     static const std::string &item_log_standart(ECS::Entity &item_entity, int item_index);
-    static void               print_items_table(const std::shared_ptr<ECS::Filter> itemsFilter);
+    static void               print_items_table(const std::shared_ptr<ECS::Filter> itemsFilter, SortType sortType = SortType::NONE);
 };
 } // namespace Utilities

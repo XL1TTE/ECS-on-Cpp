@@ -5,12 +5,13 @@
 #include "IDComponent.h"
 #include "Stash.h"
 #include "World.h"
+#include <iostream>
 #include <string>
 
 using namespace DB;
 
 DataBase::DataBase()
-    : m_capacity(16), m_bufferSize(16)
+    : m_capacity(64), m_bufferSize(16)
 {
     m_dbWorld = ECS::World::Create();
 
@@ -56,29 +57,29 @@ const std::optional<std::weak_ptr<ECS::Entity>> &DataBase::TryGetRecordByID(cons
 
 void DataBase::AddRecord(std::shared_ptr<ECS::Entity> entity)
 {
-    bool emplaced = false;
-    for (int i = 0; i < m_bufferSize; ++i)
+    for (size_t i = 0; i < m_bufferSize; ++i)
     {
-        if (m_records[i].has_value() == false)
+        if (!m_records[i].has_value())
         {
             m_records[i].emplace(entity);
-            emplaced = true;
-            break;
+            return;
         }
     }
-    if (emplaced == false)
-    {
-        resize(m_bufferSize + 1);
-        AddRecord(entity);
-    }
+
+    size_t oldSize = m_bufferSize;
+    resize(m_bufferSize + 1);
+    m_records[oldSize].emplace(entity);
 }
 void DataBase::resize(size_t requiredSize)
 {
-    if (requiredSize <= m_bufferSize)
+    if (requiredSize <= m_capacity)
     {
         m_bufferSize = requiredSize;
         return;
     }
+
+    std::cout << "Data Base resize" << std::endl;
+
     size_t newCapacity  = m_capacity * 2;
     auto   newBufferPtr = std::shared_ptr<std::optional<std::shared_ptr<ECS::Entity>>[]>(new std::optional<std::shared_ptr<ECS::Entity>>[newCapacity]);
 
