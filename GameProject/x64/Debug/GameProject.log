@@ -1,6 +1,4 @@
-﻿  ArmorRecords.cpp
-  JewelleryRecords.cpp
-  Main.cpp
+﻿  Main.cpp
 C:\Users\zzzxl\source\repos\GameProject\GameProject\LogUtility.h(26,14): warning C4091: 'static ': ignored on left of 'Utilities::LogUtility' when no variable is declared
   (compiling source file 'Main.cpp')
   
@@ -10,5 +8,4 @@ C:\Users\zzzxl\source\repos\GameProject\GameProject\LogUtility.h(140,22): warnin
 C:\Users\zzzxl\source\repos\GameProject\GameProject\LogUtility.h(152,25): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   (compiling source file 'Main.cpp')
   
-  Generating Code...
   GameProject.vcxproj -> C:\Users\zzzxl\source\repos\GameProject\x64\Debug\GameProject.exe

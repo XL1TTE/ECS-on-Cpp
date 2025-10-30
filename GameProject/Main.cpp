@@ -23,8 +23,6 @@ void ScenarioStart()
     auto inventory1 = Inventory::Create();
     inventory1->AddItemByID("weapon_crossbow");
 
-    WaitForSeconds(4);
-
     LogUtility::ShowCenteredMessage("Here is all items awaible in the game.");
 
     WaitForSeconds(4);
