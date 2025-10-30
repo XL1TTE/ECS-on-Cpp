@@ -4,6 +4,7 @@
 #include "DataBase.h"
 #include "Filter.h"
 #include "LogUtility.h"
+#include "World.h"
 #include <conio.h>
 #include <string>
 
@@ -33,8 +34,14 @@ class ConsoleItemsAPI
     };
 
   public:
-    static void ShowItemCategories()
+    static void ShowItems(std::shared_ptr<ECS::World> world)
     {
+        if (!world)
+        {
+            std::cout << "Error: World is null!\n";
+            return;
+        }
+
         Category selectedCategory;
 
         do
@@ -48,12 +55,10 @@ class ConsoleItemsAPI
 
             if (selectedCategory != Category::EXIT)
             {
-                ProcessCategorySelection(selectedCategory);
+                ProcessCategorySelection(selectedCategory, world);
             }
 
         } while (selectedCategory != Category::EXIT);
-
-        std::cout << "\nGoodbye!\n";
     }
 
   private:
@@ -152,7 +157,7 @@ class ConsoleItemsAPI
         return GetSortChoice();
     }
 
-    static void ProcessCategorySelection(Category category)
+    static void ProcessCategorySelection(Category category, std::shared_ptr<ECS::World> world)
     {
         // Спрашиваем пользователя о сортировке
         SortOption sortOption = AskForSorting();
@@ -168,26 +173,26 @@ class ConsoleItemsAPI
         {
         case Category::WEAPONS:
             std::cout << "=== WEAPONS ===\n\n";
-            ShowWeapons(sortType);
+            ShowWeapons(world, sortType);
             break;
 
         case Category::ARMOR:
             std::cout << "=== ARMOR & CLOTHING ===\n\n";
-            ShowArmor(sortType);
+            ShowArmor(world, sortType);
             break;
 
         case Category::JEWELLERY:
             std::cout << "=== JEWELLERY ===\n\n";
-            ShowJewellery(sortType);
+            ShowJewellery(world, sortType);
             break;
 
         case Category::QUEST_ITEMS:
             std::cout << "=== QUEST ITEMS ===\n\n";
-            ShowQuestItems(sortType);
+            ShowQuestItems(world, sortType);
             break;
         case Category::ALL_ITEMS:
             std::cout << "=== ALL ITEMS ===\n\n";
-            ShowAllItems(sortType);
+            ShowAllItems(world, sortType);
             break;
 
         default:
@@ -214,34 +219,35 @@ class ConsoleItemsAPI
         }
     }
 
-    static void ShowWeapons(LogUtility::SortType sortType = LogUtility::SortType::NONE)
+    static void ShowWeapons(std::shared_ptr<ECS::World> world,
+                            LogUtility::SortType        sortType = LogUtility::SortType::NONE)
     {
-        auto weaponsFilter = DB::DataBase::GetInstance().Filter()->With<Item>().With<Weapon>().Build();
-        Utilities::LogUtility::print_items_table(weaponsFilter.lock(), sortType);
+        auto weaponsFilter = world->Filter()->With<Item>().With<Weapon>().Build();
+        Utilities::LogUtility::print_items_table(world, weaponsFilter.lock(), sortType);
     }
 
-    static void ShowArmor(LogUtility::SortType sortType = LogUtility::SortType::NONE)
+    static void ShowArmor(std::shared_ptr<ECS::World> world, LogUtility::SortType sortType = LogUtility::SortType::NONE)
     {
-        auto armorFilter = DB::DataBase::GetInstance().Filter()->With<Item>().With<Armor>().Build();
-        Utilities::LogUtility::print_items_table(armorFilter.lock(), sortType);
+        auto armorFilter = world->Filter()->With<Item>().With<Armor>().Build();
+        Utilities::LogUtility::print_items_table(world, armorFilter.lock(), sortType);
     }
 
-    static void ShowJewellery(LogUtility::SortType sortType = LogUtility::SortType::NONE)
+    static void ShowJewellery(std::shared_ptr<ECS::World> world, LogUtility::SortType sortType = LogUtility::SortType::NONE)
     {
-        auto jewelleryFilter = DB::DataBase::GetInstance().Filter()->With<Item>().With<Jewellery>().Build();
-        Utilities::LogUtility::print_items_table(jewelleryFilter.lock(), sortType);
+        auto jewelleryFilter = world->Filter()->With<Item>().With<Jewellery>().Build();
+        Utilities::LogUtility::print_items_table(world, jewelleryFilter.lock(), sortType);
     }
 
-    static void ShowQuestItems(LogUtility::SortType sortType = LogUtility::SortType::NONE)
+    static void ShowQuestItems(std::shared_ptr<ECS::World> world, LogUtility::SortType sortType = LogUtility::SortType::NONE)
     {
-        auto questFilter = DB::DataBase::GetInstance().Filter()->With<Item>().With<QuestItem>().Build();
-        Utilities::LogUtility::print_items_table(questFilter.lock(), sortType);
+        auto questFilter = world->Filter()->With<Item>().With<QuestItem>().Build();
+        Utilities::LogUtility::print_items_table(world, questFilter.lock(), sortType);
     }
 
-    static void ShowAllItems(LogUtility::SortType sortType = LogUtility::SortType::NONE)
+    static void ShowAllItems(std::shared_ptr<ECS::World> world, LogUtility::SortType sortType = LogUtility::SortType::NONE)
     {
-        auto itemsFilter = DB::DataBase::GetInstance().Filter()->With<Item>().Build();
-        Utilities::LogUtility::print_items_table(itemsFilter.lock(), sortType);
+        auto itemsFilter = world->Filter()->With<Item>().Build();
+        Utilities::LogUtility::print_items_table(world, itemsFilter.lock(), sortType);
     }
 
     static void ClearScreen()

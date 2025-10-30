@@ -140,6 +140,7 @@ class RoyalCrownRecord : public IDbRecord
         With<Name>(Name("Royal Crown"));
         With<Description>(Description("Ornate crown worn by kings and queens."));
         With<Rarity>(Rarity(Rarity::EPIC));
+        With<Damage>(Damage(10));
         With<Cost>(Cost(800));
     }
 };

@@ -14,7 +14,7 @@ class LeatherArmorRecord : public IDbRecord
   public:
     LeatherArmorRecord()
     {
-        With<IDComponent>(IDComponent("armor_leather"));
+        With<IDComponent>(IDComponent("armor_leather_armor"));
         With<Item>(Item());
         With<Name>(Name("Leather Armor"));
         With<Description>(Description("Light armor made from tanned animal hide."));
@@ -110,6 +110,7 @@ class ShieldRecord : public IDbRecord
         With<Description>(Description("Sturdy shield for blocking attacks."));
         With<Rarity>(Rarity(Rarity::UNCOMMON));
         With<Armor>(Armor(12));
+        With<Damage>(Damage(2));
         With<Cost>(Cost(100));
     }
 };

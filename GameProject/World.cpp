@@ -20,6 +20,27 @@ std::weak_ptr<Entity> World::CreateEntity()
     return entity;
 }
 
+std::weak_ptr<Entity> World::CloneTo(const Entity &source, std::shared_ptr<World> targetWorld)
+{
+    auto newEntityWeak = targetWorld->CreateEntity();
+    auto newEntity     = newEntityWeak.lock();
+
+    if (!newEntity)
+    {
+        return {};
+    }
+
+    for (const auto &[stashHash, stash] : m_stashesMap)
+    {
+        if (stash->Has(source))
+        {
+            stash->CloneTo(source, targetWorld, *newEntity);
+        }
+    }
+
+    return newEntityWeak;
+}
+
 void World::DisposeEntity(const Entity &entity)
 {
     if (entity.m_id <= -1)

@@ -3,10 +3,11 @@
 #include "LogUtility.h"
 #include "Components.h"
 #include "DataBase.h"
-#include "Entity.h"
 #include "Filter.h"
 #include "Stash.h"
+#include "World.h"
 
+#include <algorithm>
 #include <fmt/color.h>
 #include <fmt/core.h>
 
@@ -39,41 +40,67 @@ std::string create_header()
                        "N", "Name", "Description", "Damage", "Armor", "Cost");
 }
 
-const std::string &LogUtility::item_log_standart(ECS::Entity &item_entity, int item_index)
+std::string LogUtility::item_log_standart(std::shared_ptr<ECS::World> world, ECS::Entity &item_entity, int item_index)
 {
     static std::string result;
 
-    auto &db = DataBase::GetInstance();
+    // Получаем сташи из мира
+    auto nameStashWeak   = world->GetStash<Name>();
+    auto descStashWeak   = world->GetStash<Description>();
+    auto rarityStashWeak = world->GetStash<Rarity>();
+    auto damageStashWeak = world->GetStash<Damage>();
+    auto armorStashWeak  = world->GetStash<Armor>();
+    auto costStashWeak   = world->GetStash<Cost>();
 
+    auto nameStash   = nameStashWeak.lock();
+    auto descStash   = descStashWeak.lock();
+    auto rarityStash = rarityStashWeak.lock();
+    auto damageStash = damageStashWeak.lock();
+    auto armorStash  = armorStashWeak.lock();
+    auto costStash   = costStashWeak.lock();
+
+    // Определяем цвет редкости
     fmt::color rarity_color = fmt::color::white;
-    if (Rarity *rarity = nullptr; db.TryGetRecordComponent<Rarity>(item_entity, rarity))
+    if (rarityStash && rarityStash->Has(item_entity))
     {
-        rarity_color = getRarityColor(rarity->m_Value);
+        const Rarity &rarity = rarityStash->Get(item_entity);
+        rarity_color         = getRarityColor(rarity.m_Value);
     }
 
-    Name        *item_name   = nullptr;
-    Description *item_desc   = nullptr;
-    Damage      *item_damage = nullptr;
-    Armor       *item_armor  = nullptr;
-    Cost        *item_cost   = nullptr;
+    // Получаем данные из компонентов
+    std::string name_str = "Unknown";
+    if (nameStash && nameStash->Has(item_entity))
+    {
+        name_str = nameStash->Get(item_entity).m_Value;
+        if (name_str.length() > 18)
+            name_str = name_str.substr(0, 15) + "...";
+    }
 
-    db.TryGetRecordComponent<Name>(item_entity, item_name);
-    db.TryGetRecordComponent<Description>(item_entity, item_desc);
-    db.TryGetRecordComponent<Damage>(item_entity, item_damage);
-    db.TryGetRecordComponent<Armor>(item_entity, item_armor);
-    db.TryGetRecordComponent<Cost>(item_entity, item_cost);
+    std::string desc_str = "No description";
+    if (descStash && descStash->Has(item_entity))
+    {
+        desc_str = descStash->Get(item_entity).m_Value;
+        if (desc_str.length() > 23)
+            desc_str = desc_str.substr(0, 20) + "...";
+    }
 
-    std::string name_str = item_name ? item_name->m_Value : "Unknown";
-    if (name_str.length() > 18)
-        name_str = name_str.substr(0, 15) + "...";
+    std::string damage_str = "0";
+    if (damageStash && damageStash->Has(item_entity))
+    {
+        damage_str = std::to_string(damageStash->Get(item_entity).m_Value);
+    }
 
-    std::string desc_str = item_desc ? item_desc->m_Value : "No description";
-    if (desc_str.length() > 23)
-        desc_str = desc_str.substr(0, 20) + "...";
+    std::string armor_str = "0";
+    if (armorStash && armorStash->Has(item_entity))
+    {
+        armor_str = std::to_string(armorStash->Get(item_entity).m_Value);
+    }
 
-    std::string damage_str = item_damage ? std::to_string(item_damage->m_Value) : "0";
-    std::string armor_str  = item_armor ? std::to_string(item_armor->m_Value) : "0";
-    std::string cost_str   = item_cost ? fmt::format("{:.1f}", item_cost->m_Value) : "-";
+    std::string cost_str = "-";
+    if (costStash && costStash->Has(item_entity))
+    {
+        cost_str = fmt::format("{:.1f}", costStash->Get(item_entity).m_Value);
+    }
 
     result = fmt::format(fmt::fg(rarity_color), "{:<3} {:<20} {:<25} {:>8} {:>8} {:>10}",
                          item_index, name_str, desc_str, damage_str, armor_str, cost_str);
@@ -81,51 +108,91 @@ const std::string &LogUtility::item_log_standart(ECS::Entity &item_entity, int i
     return result;
 }
 
-void LogUtility::print_items_table(const std::shared_ptr<ECS::Filter> itemsFilter, SortType sortType)
+void LogUtility::print_items_table(std::shared_ptr<ECS::World>        world,
+                                   const std::shared_ptr<ECS::Filter> itemsFilter,
+                                   SortType                           sortType)
 {
     std::vector<std::shared_ptr<ECS::Entity>> items(itemsFilter->begin(), itemsFilter->end());
 
-    auto &db = DataBase::GetInstance();
+    // Получаем сташи для сортировки
+    auto rarityStashWeak = world->GetStash<Rarity>();
+    auto costStashWeak   = world->GetStash<Cost>();
+
+    auto rarityStash = rarityStashWeak.lock();
+    auto costStash   = costStashWeak.lock();
 
     switch (sortType)
     {
     case SortType::BY_RARITY:
-        std::sort(items.begin(), items.end(), [&db](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
-                  {
-            Rarity *rarityA = nullptr, *rarityB = nullptr;
-            db.TryGetRecordComponent<Rarity>(*a, rarityA);
-            db.TryGetRecordComponent<Rarity>(*b, rarityB);
-            
-            int rarityValueA = rarityA ? static_cast<int>(rarityA->m_Value) : 0;
-            int rarityValueB = rarityB ? static_cast<int>(rarityB->m_Value) : 0;
-            
-            return rarityValueA > rarityValueB; });
+        if (rarityStash)
+        {
+            std::sort(items.begin(), items.end(),
+                      [&rarityStash](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
+                      {
+                          bool hasRarityA = rarityStash->Has(*a);
+                          bool hasRarityB = rarityStash->Has(*b);
+
+                          if (!hasRarityA && !hasRarityB)
+                              return false;
+                          if (!hasRarityA)
+                              return false;
+                          if (!hasRarityB)
+                              return true;
+
+                          int rarityValueA = static_cast<int>(rarityStash->Get(*a).m_Value);
+                          int rarityValueB = static_cast<int>(rarityStash->Get(*b).m_Value);
+
+                          return rarityValueA > rarityValueB;
+                      });
+        }
         break;
 
     case SortType::BY_PRICE_ASC:
-        std::sort(items.begin(), items.end(), [&db](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
-                  {
-            Cost *costA = nullptr, *costB = nullptr;
-            db.TryGetRecordComponent<Cost>(*a, costA);
-            db.TryGetRecordComponent<Cost>(*b, costB);
-            
-            float costValueA = costA ? costA->m_Value : 0.0f;
-            float costValueB = costB ? costB->m_Value : 0.0f;
-            
-            return costValueA < costValueB; });
+        if (costStash)
+        {
+            std::sort(items.begin(), items.end(),
+                      [&costStash](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
+                      {
+                          bool hasCostA = costStash->Has(*a);
+                          bool hasCostB = costStash->Has(*b);
+
+                          if (!hasCostA && !hasCostB)
+                              return false;
+                          if (!hasCostA)
+                              return false;
+                          if (!hasCostB)
+                              return true;
+
+                          float costValueA = costStash->Get(*a).m_Value;
+                          float costValueB = costStash->Get(*b).m_Value;
+
+                          return costValueA < costValueB;
+                      });
+        }
         break;
 
     case SortType::BY_PRICE_DESC:
-        std::sort(items.begin(), items.end(), [&db](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
-                  {
-            Cost *costA = nullptr, *costB = nullptr;
-            db.TryGetRecordComponent<Cost>(*a, costA);
-            db.TryGetRecordComponent<Cost>(*b, costB);
-            
-            float costValueA = costA ? costA->m_Value : 0.0f;
-            float costValueB = costB ? costB->m_Value : 0.0f;
-            
-            return costValueA > costValueB; });
+        if (costStash)
+        {
+            std::sort(items.begin(), items.end(),
+                      [&costStash](const std::shared_ptr<ECS::Entity> &a, const std::shared_ptr<ECS::Entity> &b) -> bool
+                      {
+                          bool hasCostA = costStash->Has(*a);
+                          bool hasCostB = costStash->Has(*b);
+
+                          if (!hasCostA && !hasCostB)
+                              return false;
+                          if (!hasCostA)
+                              return true;
+                          if (!hasCostB)
+                              return false;
+
+                          float costValueA = costStash->Get(*a).m_Value;
+                          float costValueB = costStash->Get(*b).m_Value;
+
+                          return costValueA > costValueB;
+                      });
+        }
         break;
 
     case SortType::NONE:
@@ -143,6 +210,6 @@ void LogUtility::print_items_table(const std::shared_ptr<ECS::Filter> itemsFilte
     for (const auto &item : items)
     {
         ++index;
-        fmt::print("{}\n", item_log_standart(*item, index));
+        fmt::print("{}\n", item_log_standart(world, *item, index));
     }
 }

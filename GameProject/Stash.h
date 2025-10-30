@@ -57,6 +57,8 @@ struct Stash : public IStash
 
     bool Has(const Entity &entity) const override;
 
+    void CloneTo(const Entity &source, std::shared_ptr<ECS::World> targetWorld, const Entity &targetEntity) override;
+
   private:
     void resize(size_t requiredSize);
 };

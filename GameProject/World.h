@@ -50,6 +50,8 @@ class World final : public std::enable_shared_from_this<World>
         return m_entities;
     }
 
+    std::weak_ptr<Entity> CloneTo(const Entity &source, std::shared_ptr<World> targetWorld);
+
     template <typename T>
     std::weak_ptr<Stash<T>> GetStash();
 

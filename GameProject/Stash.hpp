@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "IStash.h"
 #include "Stash.h"
+#include "World.h"
 #include <memory>
 #include <optional>
 
@@ -112,4 +113,23 @@ void Stash<T>::resize(size_t requiredSize)
     m_valuesPtr  = std::move(newBufferPtr);
     m_bufferSize = requiredSize;
     m_capacity   = newCapacity;
+}
+
+template <typename T>
+void Stash<T>::CloneTo(const Entity &source, std::shared_ptr<World> targetWorld, const Entity &targetEntity)
+{
+    static_assert(std::is_copy_constructible_v<T>, "Component type must be copy constructible for cloning");
+
+    if (Has(source))
+    {
+        const T &sourceComponent = Get(source);
+
+        auto targetStashWeak = targetWorld->GetStash<T>();
+        auto targetStash     = targetStashWeak.lock();
+
+        if (targetStash)
+        {
+            targetStash->Add(targetEntity, T(sourceComponent));
+        }
+    }
 }

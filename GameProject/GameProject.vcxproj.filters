@@ -93,6 +93,9 @@
     <ClInclude Include="JewelleryRecords.h">
       <Filter>Header Files\DBRecords</Filter>
     </ClInclude>
+    <ClInclude Include="Inventory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp">
@@ -133,6 +136,9 @@
     </ClCompile>
     <ClCompile Include="WeaponRecords.cpp">
       <Filter>Source Files\DBRecords</Filter>
+    </ClCompile>
+    <ClCompile Include="Inventory.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
